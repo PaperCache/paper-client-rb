@@ -9,7 +9,7 @@ class TcpClient
 	end
 
 	def send(sheet)
-		data = sheet.bytes().pack("C*")
+		data = sheet.bytes.pack("C*")
 		@socket.write(data)
 	end
 

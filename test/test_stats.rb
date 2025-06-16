@@ -2,9 +2,9 @@ require "minitest/autorun"
 require "paper_client"
 require "global"
 
-class PingTest < UnitTest
-	def test_ping
+class StatsTest < UnitTest
+	def test_stats
 		client = init_client
-		assert_equal client.ping, "pong"
+		client.stats.inspect
 	end
 end

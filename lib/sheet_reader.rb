@@ -6,7 +6,7 @@ class SheetReader
 	end
 
 	def read_bool
-		return self.read_u8() == 33
+		return self.read_u8 == 33
 	end
 
 	def read_u8
@@ -30,7 +30,7 @@ class SheetReader
 	end
 
 	def read_str
-		len = self.read_u32()
+		len = self.read_u32
 		bytes = @tcp_client.read_bytes(len)
 		return bytes.pack("C*").force_encoding("UTF-8")
 	end
