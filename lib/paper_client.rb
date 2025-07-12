@@ -278,6 +278,8 @@ module PaperClient
 	class ZeroValueSizeError < StandardError; end
 	class ExceedingValueSizeError < StandardError; end
 	class ZeroCacheSizeError < StandardError; end
+	class UnconfiguredPolicy < StandardError; end
+	class InvalidPolicy < StandardError; end
 end
 
 module CommandByte
@@ -318,6 +320,10 @@ def parse_error(reader)
 				ExceedingValueSize
 			when 4
 				ZeroCacheSize
+			when 5
+				UnconfiguredPolicy
+			when 6
+				InvalidPolicy
 			else
 				PaperClient::InternalError
 		end
