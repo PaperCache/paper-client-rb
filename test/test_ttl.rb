@@ -2,7 +2,7 @@ require "minitest/autorun"
 require "paper_client"
 require "global"
 
-class GetTest < UnitTest
+class TtlTest < UnitTest
 	def test_exists
 		client = init_client
 
