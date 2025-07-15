@@ -10,9 +10,9 @@ class ResizeTest < UnitTest
 		client = init_client
 
 		client.resize(INITIAL_SIZE)
-		assert_equal client.stats.max_size, INITIAL_SIZE
+		assert_equal client.status.max_size, INITIAL_SIZE
 
 		client.resize(UPDATED_SIZE)
-		assert_equal client.stats.max_size, UPDATED_SIZE
+		assert_equal client.status.max_size, UPDATED_SIZE
 	end
 end

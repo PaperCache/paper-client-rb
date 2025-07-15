@@ -2,9 +2,9 @@ require "minitest/autorun"
 require "paper_client"
 require "global"
 
-class StatsTest < UnitTest
-	def test_stats
+class StatusTest < UnitTest
+	def test_status
 		client = init_client
-		client.stats.inspect
+		client.status.inspect
 	end
 end

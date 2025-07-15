@@ -117,11 +117,11 @@ module PaperClient
 			return self.process(sheet)
 		end
 
-		def stats
+		def status
 			sheet = SheetBuilder.new
-				.write_u8(CommandByte::STATS)
+				.write_u8(CommandByte::STATUS)
 
-			return self.process_stats(sheet)
+			return self.process_status(sheet)
 		end
 
 	private
@@ -175,7 +175,7 @@ module PaperClient
 			return reader.read_u32
 		end
 
-		def process_stats(sheet)
+		def process_status(sheet)
 			@tcp_client.send(sheet)
 			reader = SheetReader.new(@tcp_client)
 
@@ -185,9 +185,14 @@ module PaperClient
 				raise parse_error(reader)
 			end
 
+			pid = reader.read_u32
+
 			max_size = reader.read_u64
 			used_size = reader.read_u64
 			num_objects = reader.read_u64
+
+			rss = reader.read_u64
+			hwm = reader.read_u64
 
 			total_gets = reader.read_u64
 			total_sets = reader.read_u64
@@ -207,10 +212,13 @@ module PaperClient
 
 			uptime = reader.read_u64
 
-			return Stats.new(\
+			return Status.new(\
+				pid,\
 				max_size,\
 				used_size,\
 				num_objects,\
+				rss,\
+				hwm,\
 				total_gets,\
 				total_sets,\
 				total_dels,\
@@ -223,11 +231,14 @@ module PaperClient
 		end
 	end
 
-	class Stats
+	class Status
 		attr_reader\
+			:pid,\
 			:max_size,\
 			:used_size,\
 			:num_objects,\
+			:rss,\
+			:hwm,\
 			:total_gets,\
 			:total_sets,\
 			:total_dels,\
@@ -238,9 +249,12 @@ module PaperClient
 			:uptime
 
 		def initialize(\
+			pid,\
 			max_size,\
 			used_size,\
 			num_objects,\
+			rss,\
+			hwm,\
 			total_gets,\
 			total_sets,\
 			total_dels,\
@@ -250,9 +264,14 @@ module PaperClient
 			is_auto_policy,\
 			uptime\
 		)
+			@pid = pid
+
 			@max_size = max_size
 			@used_size = used_size
 			@num_objects = num_objects
+
+			@rss = rss
+			@hwm = hwm
 
 			@total_gets = total_gets
 			@total_sets = total_sets
@@ -302,7 +321,7 @@ module CommandByte
 	RESIZE = 11
 	POLICY = 12
 
-	STATS = 13
+	STATUS = 13
 end
 
 def parse_error(reader)

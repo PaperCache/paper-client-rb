@@ -10,9 +10,9 @@ class PolicyTest < UnitTest
 		client = init_client
 
 		client.policy(INITIAL_POLICY_ID)
-		assert_equal client.stats.policy_id, INITIAL_POLICY_ID
+		assert_equal client.status.policy_id, INITIAL_POLICY_ID
 
 		client.policy(UPDATED_POLICY_ID)
-		assert_equal client.stats.policy_id, UPDATED_POLICY_ID
+		assert_equal client.status.policy_id, UPDATED_POLICY_ID
 	end
 end
